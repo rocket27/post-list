@@ -1,0 +1,21 @@
+@import 'src/styles/base/variables';
+
+.info-mark {
+  font-size: 14px;
+
+  &:not(:first-child) {
+    margin-top: 2px;
+  }
+
+  &--primary {
+    color: $primary-color;
+  }
+
+  &--warning {
+    color: $warning-color;
+  }
+
+  &--success {
+    color: $success-color;
+  }
+}

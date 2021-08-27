@@ -1,0 +1,23 @@
+@import './styles/base/variables.scss';
+@import './styles/formControl.scss';
+
+body {
+  font-family: $primary-font;
+}
+
+svg {
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.title {
+  font-family: $title-font;
+  color: $black;
+  font-size: 24px;
+}

@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import App from './app';
 import AppWrapper from './appWrapper';
+import PostList from './components/postList/postList';
 import ScrollToTop from './helpers/scrollToTop';
 
 const AppRouter = () => {
-    // const NewComponent = React.lazy(() => import('../'));
+    const NewPost = React.lazy(() => import('./components/newPost/newPost'));
 
     return (
         <BrowserRouter>
@@ -17,7 +17,12 @@ const AppRouter = () => {
                             <Route
                                 exact
                                 path={'/'}
-                                component={App}
+                                component={PostList}
+                            />
+                            <Route
+                                exact
+                                path={'/new'}
+                                component={NewPost}
                             />
                         </Switch>
                     </AppWrapper>
