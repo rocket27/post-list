@@ -18,4 +18,8 @@
   &--success {
     color: $success-color;
   }
+
+  span {
+    display: inline-block;
+  }
 }

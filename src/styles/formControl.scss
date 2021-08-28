@@ -1,5 +1,16 @@
 @import '../styles/base/variables';
 
+%common-control-styles {
+  width: 100%;
+  border-radius: $control-border-radius;
+  box-shadow: $control-shadow;
+  border: $control-border;
+  background-color: $control-background;
+  font-family: $primary-font;
+  color: $primary-color;
+  outline: none;
+}
+
 .form-control {
   margin-top: 24px;
 
@@ -16,16 +27,26 @@
   &__input-wrapper {
     flex-grow: 1;
 
+    textarea {
+      @extend %common-control-styles;
+
+      height: 148px;
+      padding: 8px 16px;
+      resize: none;
+    }
+
     input {
-      width: 100%;
+      @extend %common-control-styles;
+
       height: 36px;
       padding: 0 16px;
-      border-radius: 3px;
-      box-shadow: inset 0 1px 3px 0 rgba(27, 40, 52, 0.08);
-      border: solid 1px #d4d8db;
-      background-color: rgba(27, 40, 52, 0.01);
-      outline: none;
-      color: $primary-color;
+    }
+
+    &--error {
+      textarea,
+      input {
+        border-color: $warning-color;
+      }
     }
   }
 

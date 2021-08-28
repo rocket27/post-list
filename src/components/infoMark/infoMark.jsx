@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { MARK_TYPES } from '../../enums/markTypes';
 import './infoMark.scss';
 
-const InfoMark = ({ title, type }) => {
+const InfoMark = ({ content, maxLength, required, type }) => {
     return (
         <small
             className={classNames(
@@ -14,7 +14,20 @@ const InfoMark = ({ title, type }) => {
                 }
             )}
         >
-            {title}
+            {
+                (required || maxLength) &&
+                <>
+                    {
+                        required && <span>Обязательное поле</span>
+                    }
+                    {
+                        maxLength &&  <span>Не более {maxLength} символов</span>
+                    }
+                </>
+            }
+            {
+                !required && !maxLength && content && <span>{content}</span>
+            }
         </small>
     );
 };
