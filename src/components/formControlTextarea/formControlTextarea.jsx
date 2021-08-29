@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 import { ReactSVG } from 'react-svg';
-import { MARK_TYPES } from '../../enums/markTypes';
-import InfoMark from '../infoMark/infoMark';
 import helpIcon from '../../assets/images/svg/help.svg';
 import successIcon from '../../assets/images/svg/success.svg';
 import errorIcon from '../../assets/images/svg/error.svg';
+import { MARK_TYPES } from '../../enums/markTypes';
+import InfoMark from '../infoMark/infoMark';
 
-const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, placeholder, register, required }) => {
+
+const FormControlTextarea = ({ currentValue, errors, name, id, label, maxLength, placeholder, register, required }) => {
     return (
         <section className={'form-control'}>
             {
@@ -19,8 +20,7 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
                         'form-control__input-wrapper--error': errors,
                     },
                 )}>
-                    <input
-                        type={'text'}
+                    <textarea
                         id={id}
                         name={name}
                         placeholder={placeholder}
@@ -58,4 +58,4 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
     );
 };
 
-export default FormControlInput;
+export default FormControlTextarea;

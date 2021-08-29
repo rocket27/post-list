@@ -1,55 +1,69 @@
-import React from 'react';
+import { inject, observer } from 'mobx-react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory } from 'react-router-dom';
-import Select from 'react-select/src/Select';
-import * as yup from "yup";
-import { POST_LIST_LOCAL_STORAGE_VALUE } from '../../config/constants';
+import * as yup from 'yup';
+// import { POST_LIST_LOCAL_STORAGE_VALUE } from '../../config/constants';
 import { POST_CREATE_FORM_CONFIG } from '../../config/postCreateFormConfig';
-import { getLocalStorageItem, setLocalStorageItem } from '../../helpers/utils';
+import { CITIES } from '../../enums/cities';
+// import { getLocalStorageItem, getValidFileObjectToJSONStringify, setLocalStorageItem } from '../../helpers/utils';
+import FormControlFileInput from '../formControlFileInput/formControlFileInput';
 import FormControlInput from '../formControlInput/formControlInput';
 import { v4 as uuidv4 } from 'uuid';
+import FormControlPhone from '../formControlPhone/formControlPhone';
+import FormControlSelect from '../formControlSelect/formControlSelect';
+import FormControlTextarea from '../formControlTextarea/formControlTextarea';
+import './newPost.scss';
 
-const NewPost = () => {
+const NewPost = ({ postStore }) => {
     const history = useHistory();
+    const [selectedImage, setSelectedImage] = useState(null);
 
     /**
      * Схема валидации формы создания объявления
      */
-    const formSchema = yup.object().shape({
-        title: yup.string()
-            .required(POST_CREATE_FORM_CONFIG.title.validation.required.message)
-            .max(
-                POST_CREATE_FORM_CONFIG.title.validation.maxlength.value,
-                POST_CREATE_FORM_CONFIG.title.validation.maxlength.message(POST_CREATE_FORM_CONFIG.title.validation.maxlength.value),
-            ),
-        description: yup.string()
-            .required(POST_CREATE_FORM_CONFIG.description.validation.required.message)
-            .max(
-                POST_CREATE_FORM_CONFIG.description.validation.maxlength.value,
-                POST_CREATE_FORM_CONFIG.description.validation.maxlength.message(POST_CREATE_FORM_CONFIG.description.validation.maxlength.value),
-            ),
-        phoneNumber: yup.string()
-            .required(POST_CREATE_FORM_CONFIG.phone.validation.required.message)
-            .matches(
-                POST_CREATE_FORM_CONFIG.phone.validation.matches.value,
-                POST_CREATE_FORM_CONFIG.phone.validation.matches.message,
-            ),
-    });
+    const formSchema = yup.object()
+        .shape({
+            title: yup.string()
+                .required(POST_CREATE_FORM_CONFIG.title.validation.required.message)
+                .max(
+                    POST_CREATE_FORM_CONFIG.title.validation.maxlength.value,
+                    POST_CREATE_FORM_CONFIG.title.validation.maxlength.message(POST_CREATE_FORM_CONFIG.title.validation.maxlength.value),
+                ),
+            description: yup.string()
+                .required(POST_CREATE_FORM_CONFIG.description.validation.required.message)
+                .max(
+                    POST_CREATE_FORM_CONFIG.description.validation.maxlength.value,
+                    POST_CREATE_FORM_CONFIG.description.validation.maxlength.message(POST_CREATE_FORM_CONFIG.description.validation.maxlength.value),
+                ),
+            phoneNumber: yup.string()
+                .required(POST_CREATE_FORM_CONFIG.phone.validation.required.message)
+                .matches(
+                    POST_CREATE_FORM_CONFIG.phone.validation.matches.value,
+                    POST_CREATE_FORM_CONFIG.phone.validation.matches.message,
+                ),
+            city: yup.string()
+                .required(POST_CREATE_FORM_CONFIG.city.validation.required.message),
+        });
 
     /**
      * Конфигурация для работы с формой
      */
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { control, register, handleSubmit, watch, formState: { errors } } = useForm({
         mode: 'onBlur',
         resolver: yupResolver(formSchema),
     });
 
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
-    ]
+    /**
+     * Обрабатываем изменение выбранного изображения
+     * @param file
+     * @param base64string
+     */
+    const onImageSelect = (file) => {
+        if (!file) setSelectedImage(null);
+        setSelectedImage(file);
+    };
 
     /**
      * Создаем новое объявление, добавляем уникальный идентификатор
@@ -59,17 +73,25 @@ const NewPost = () => {
     const CreatePost = (data) => {
         const newPost = {
             id: uuidv4(),
+            image: selectedImage,
             ...data,
         };
-        const postList = getLocalStorageItem(POST_LIST_LOCAL_STORAGE_VALUE);
-        if (!postList) {
+        /*if (selectedImage && selectedImage.name) {
+            newPost.image = getValidFileObjectToJSONStringify(selectedImage);
+        }*/
+        // return;
+        const postList = postStore?.getPostList();
+        /*if (!postList) {
             setLocalStorageItem(POST_LIST_LOCAL_STORAGE_VALUE, [newPost]);
-        } else {
+        }*/
+        if (!postList) postStore?.setPostList([newPost]);
+        else {
             postList.push(newPost);
-            setLocalStorageItem(POST_LIST_LOCAL_STORAGE_VALUE, postList);
+            // setLocalStorageItem(POST_LIST_LOCAL_STORAGE_VALUE, postList);
+            postStore?.setPostList(postList);
         }
         history.push('/');
-    }
+    };
 
     return (
         <div className={'new-post'}>
@@ -85,9 +107,8 @@ const NewPost = () => {
                         maxLength={POST_CREATE_FORM_CONFIG.title.validation.maxlength.value}
                         register={register}
                         required
-                        type={'text'}
                     />
-                    <FormControlInput
+                    <FormControlTextarea
                         currentValue={watch(POST_CREATE_FORM_CONFIG.description.name)}
                         errors={errors[POST_CREATE_FORM_CONFIG.description.name]}
                         name={POST_CREATE_FORM_CONFIG.description.name}
@@ -96,9 +117,8 @@ const NewPost = () => {
                         maxLength={POST_CREATE_FORM_CONFIG.description.validation.maxlength.value}
                         register={register}
                         required
-                        textarea
                     />
-                    <FormControlInput
+                    <FormControlPhone
                         currentValue={watch(POST_CREATE_FORM_CONFIG.phone.name)}
                         errors={errors[POST_CREATE_FORM_CONFIG.phone.name]}
                         name={POST_CREATE_FORM_CONFIG.phone.name}
@@ -106,10 +126,20 @@ const NewPost = () => {
                         label={POST_CREATE_FORM_CONFIG.phone.label}
                         placeholder={'+7 ___ ___ __ __'}
                         register={register}
-                        required
-                        type={'tel'}
                     />
-                    <Select options={options}/>
+                    <FormControlSelect
+                        currentValue={watch(POST_CREATE_FORM_CONFIG.city.name)}
+                        errors={errors[POST_CREATE_FORM_CONFIG.city.name]}
+                        name={POST_CREATE_FORM_CONFIG.city.name}
+                        id={POST_CREATE_FORM_CONFIG.city.name}
+                        label={POST_CREATE_FORM_CONFIG.city.label}
+                        options={Object.values(CITIES)}
+                        { ...register(POST_CREATE_FORM_CONFIG.city.name) }
+                        required
+                    />
+                    <FormControlFileInput
+                        onChangeImage={onImageSelect}
+                    />
                     <input type="submit" value={'send'}/>
                 </form>
             </div>
@@ -117,4 +147,4 @@ const NewPost = () => {
     );
 };
 
-export default NewPost;
+export default inject('postStore')(observer(NewPost));

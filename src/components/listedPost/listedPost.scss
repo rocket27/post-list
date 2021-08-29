@@ -1,0 +1,58 @@
+@import '../../styles/base/variables';
+
+.listed-post {
+  display: flex;
+
+  &__main-info {
+    flex-grow: 1;
+  }
+
+  &__image-wrapper {
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  &__image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  &__additional-info {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 178px;
+    margin-left: 100px;
+  }
+
+  &__management {
+    margin-top: 16px;
+
+    button:not(:first-child) {
+      margin-top: 14px;
+    }
+  }
+
+  &__contacts-city,
+  &__contacts-phone {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    color: $black;
+
+    span {
+      display: inline-block;
+      margin-left: 8px;
+    }
+  }
+
+  &__contacts-city {
+    margin-top: 12px;
+  }
+
+  &__contacts-phone {
+    text-decoration: none;
+  }
+}

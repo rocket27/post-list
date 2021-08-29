@@ -2,12 +2,13 @@ import classNames from 'classnames';
 import React from 'react';
 import { ReactSVG } from 'react-svg';
 import { MARK_TYPES } from '../../enums/markTypes';
+import { parsePhoneNumber } from '../../helpers/utils';
 import InfoMark from '../infoMark/infoMark';
 import helpIcon from '../../assets/images/svg/help.svg';
 import successIcon from '../../assets/images/svg/success.svg';
 import errorIcon from '../../assets/images/svg/error.svg';
 
-const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, placeholder, register, required }) => {
+const FormControlPhone = ({ currentValue, errors, name, id, label, placeholder, register }) => {
     return (
         <section className={'form-control'}>
             {
@@ -20,11 +21,12 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
                     },
                 )}>
                     <input
-                        type={'text'}
                         id={id}
                         name={name}
                         placeholder={placeholder}
+                        type={'tel'}
                         { ...register(name) }
+                        onChange={(event) => event.target.value = parsePhoneNumber(event.target.value)}
                     />
                 </div>
                 <div className={'form-control__info'}>
@@ -44,12 +46,7 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
                             errors && <InfoMark content={errors.message} type={MARK_TYPES.WARNING}/>
                         }
                         {
-                            !currentValue && !errors &&
-                            <InfoMark
-                                required={required}
-                                maxLength={maxLength}
-                                type={MARK_TYPES.PRIMARY}
-                            />
+                            !currentValue && !errors && <InfoMark content={'Обязательное поле'} type={MARK_TYPES.PRIMARY}/>
                         }
                     </div>
                 </div>
@@ -58,4 +55,4 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
     );
 };
 
-export default FormControlInput;
+export default FormControlPhone;

@@ -1,3 +1,21 @@
-.post-list {
+@import '../../styles/base/placeholders';
 
+.post-list {
+  @extend %page-padding;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__view {
+    margin-top: 24px;
+  }
+
+  &__view-item {
+    &:not(:first-child) {
+      margin-top: 78px;
+    }
+  }
 }

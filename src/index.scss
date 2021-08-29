@@ -1,8 +1,32 @@
-@import './styles/base/variables.scss';
-@import './styles/formControl.scss';
+@import './styles/base/variables';
+@import './styles/base/placeholders';
+@import './styles/formControl';
 
 body {
   font-family: $primary-font;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+figure {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
 }
 
 svg {
@@ -32,4 +56,19 @@ ul {
   font-family: $title-font;
   color: $black;
   font-size: 24px;
+}
+
+.primary-button {
+  @extend %primary-button;
+}
+
+.warning-button {
+  @extend %primary-button;
+
+  color: $warning-color;
+  border-color: $warning-color;
+
+  &:hover {
+    background-color: $warning-color;
+  }
 }

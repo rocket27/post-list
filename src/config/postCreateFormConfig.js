@@ -40,5 +40,13 @@ export const POST_CREATE_FORM_CONFIG = {
             },
         },
     },
-
+    city: {
+        name: 'city',
+        label: 'Город',
+        validation: {
+            required: {
+                message: 'Выберите город',
+            },
+        },
+    },
 };

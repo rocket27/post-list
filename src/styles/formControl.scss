@@ -1,4 +1,5 @@
 @import '../styles/base/variables';
+@import '../styles/base/placeholders';
 
 %common-control-styles {
   width: 100%;
@@ -42,6 +43,13 @@
       padding: 0 16px;
     }
 
+    select {
+      @extend %common-control-styles;
+
+      height: 36px;
+      padding: 0 16px;
+    }
+
     &--error {
       textarea,
       input {
@@ -63,5 +71,56 @@
     display: flex;
     flex-direction: column;
     margin-left: 4px;
+  }
+
+  &__file {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  &__file + &__static-label {
+    @extend %primary-button;
+  }
+
+  &__file-data {
+    display: flex;
+    align-items: stretch;
+  }
+
+  &__file-image-wrapper {
+    display: flex;
+    align-items: center;
+    max-width: 72px;
+  }
+
+  &__file-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__file-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-left: 10px;
+  }
+
+  &__file-name {
+    font-size: 14px;
+    color: $bluish;
+  }
+
+  &__file-remove {
+    padding: 0;
+    border: none;
+    border-bottom: 1px dotted $warning-color;
+    background-color: transparent;
+    font-size: 14px;
+    color: $warning-color;
+    cursor: pointer;
   }
 }

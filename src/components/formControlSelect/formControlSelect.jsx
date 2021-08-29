@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 import { ReactSVG } from 'react-svg';
-import { MARK_TYPES } from '../../enums/markTypes';
-import InfoMark from '../infoMark/infoMark';
+import errorIcon from '../../assets/images/svg/error.svg';
 import helpIcon from '../../assets/images/svg/help.svg';
 import successIcon from '../../assets/images/svg/success.svg';
-import errorIcon from '../../assets/images/svg/error.svg';
+import { MARK_TYPES } from '../../enums/markTypes';
+import InfoMark from '../infoMark/infoMark';
 
-const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, placeholder, register, required }) => {
+
+const FormControlSelect = React.forwardRef(({ currentValue, errors, id, label, name, options, register }, ref) => {
     return (
         <section className={'form-control'}>
             {
@@ -19,13 +20,26 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
                         'form-control__input-wrapper--error': errors,
                     },
                 )}>
-                    <input
-                        type={'text'}
+                    <select
                         id={id}
                         name={name}
-                        placeholder={placeholder}
-                        { ...register(name) }
-                    />
+                        ref={ref}
+                        defaultValue
+                    >
+                        <option disabled value>Выберите город</option>
+                        {
+                            options.map((option) => {
+                                return (
+                                    <option
+                                        key={option.id}
+                                        value={option.name}
+                                    >
+                                        {option.name}
+                                    </option>
+                                );
+                            })
+                        }
+                    </select>
                 </div>
                 <div className={'form-control__info'}>
                     <ReactSVG
@@ -46,8 +60,6 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
                         {
                             !currentValue && !errors &&
                             <InfoMark
-                                required={required}
-                                maxLength={maxLength}
                                 type={MARK_TYPES.PRIMARY}
                             />
                         }
@@ -56,6 +68,6 @@ const FormControlInput = ({ currentValue, errors, name, id, label, maxLength, pl
             </div>
         </section>
     );
-};
+});
 
-export default FormControlInput;
+export default FormControlSelect;

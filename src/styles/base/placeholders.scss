@@ -1,0 +1,25 @@
+@import 'variables';
+
+%page-padding {
+  padding: 48px 0;
+}
+
+%primary-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 178px;
+  height: 36px;
+  border: 1px solid $bluish;
+  border-radius: $control-border-radius;
+  color: $bluish;
+  transition: $default-transition;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    background-color: $bluish;
+    color: white;
+  }
+}

@@ -24,7 +24,6 @@ export function getLocalStorageItem(name) {
  */
 export function parsePhoneNumber(value) {
     const phoneNumber = parsePhoneNumberFromString(value);
-    window.console.log(phoneNumber); // Todo: do not forget to remove!
     if (!phoneNumber) return value;
     return phoneNumber.formatInternational();
 }
@@ -38,3 +37,19 @@ export function onPressEnter(event, callback) {
     const enterCharCode = 13;
     if (event.charCode === enterCharCode) callback();
 }
+
+/**
+ * Так как нет возможности превратить в JSON строку объект File,
+ * мы создаем его копию в новом объекте, который будем использовать
+ * в качестве нового объекта для изображения
+ * @param fileObject
+ */
+export function getValidFileObjectToJSONStringify(fileObject) {
+    const imageObject = {};
+    for (const key in fileObject) {
+        const value = fileObject[key];
+        const notFunction = typeof value !== "function";
+        notFunction && (imageObject[key] = value);
+    }
+    return imageObject;
+};
