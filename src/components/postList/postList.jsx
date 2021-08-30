@@ -7,6 +7,7 @@ import './postList.scss';
 
 const PostList = () => {
     const [postList, setPostList] = useState(postStore?.postList ?? []);
+    useEffect(() => getPostList());
 
     /**
      * Получаем список объявлений из LocalStorage
@@ -25,8 +26,6 @@ const PostList = () => {
         postStore.setPostList(postList.filter((post) => post.id !== postId));
         getPostList();
     };
-
-    useEffect(getPostList, []);
 
     return (
         <div className={'post-list'}>

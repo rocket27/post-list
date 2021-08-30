@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AppWrapper from './appWrapper';
 import Loader from './components/loader/loader';
+import NotFound from './components/notFound/notFound';
 import PostList from './components/postList/postList';
 import ScrollToTop from './helpers/scrollToTop';
 
@@ -24,6 +25,9 @@ const AppRouter = () => {
                                 exact
                                 path={'/new'}
                                 component={NewPost}
+                            />
+                            <Route
+                                component={NotFound}
                             />
                         </Switch>
                     </AppWrapper>

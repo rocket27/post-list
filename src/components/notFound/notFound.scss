@@ -1,0 +1,9 @@
+@import '../../styles/base/placeholders';
+
+.not-found {
+  @extend  %page-padding;
+
+  h1 {
+    text-align: center;
+  }
+}
