@@ -13,7 +13,7 @@ const ListedPost = ({ city, description, id, image, onRemove, phoneNumber, title
         if (image && image.name) {
             getBase64imageString(image);
         }
-    }, []);
+    }, [image]);
 
     /**
      * Переход в карточку объявления для редактирования
@@ -26,14 +26,9 @@ const ListedPost = ({ city, description, id, image, onRemove, phoneNumber, title
      */
     const getBase64imageString = (file) => {
         if (!file) return;
-        // const validFile = getValidFileObject(file);
         const reader = new FileReader();
         reader.onload = (e) => setImageBase64string(e.target.result);
         reader.readAsDataURL(file);
-    };
-
-    const getValidFileObject = (file) => {
-        return new File([file], file.name, { type: file.type });
     };
 
     return (
@@ -67,7 +62,7 @@ const ListedPost = ({ city, description, id, image, onRemove, phoneNumber, title
                         <ReactSVG
                             src={mapMarker}
                         />
-                        <span>{city}</span>
+                        <span>{city.name}</span>
                     </div>
                 </div>
                 <div className={'listed-post__management'}>

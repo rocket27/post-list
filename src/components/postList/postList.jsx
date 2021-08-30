@@ -1,12 +1,11 @@
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { POST_LIST_LOCAL_STORAGE_VALUE } from '../../config/constants';
-// import { getLocalStorageItem, setLocalStorageItem } from '../../helpers/utils';
+import postStore from '../../store/postStore';
 import ListedPost from '../listedPost/listedPost';
 import './postList.scss';
 
-const PostList = ({ postStore }) => {
+const PostList = () => {
     const [postList, setPostList] = useState(postStore?.postList ?? []);
 
     /**
@@ -23,7 +22,6 @@ const PostList = ({ postStore }) => {
     const removePostFromList = (postId) => {
         if (!postId) return;
         if (!postList) getPostList();
-        // setLocalStorageItem(POST_LIST_LOCAL_STORAGE_VALUE, postList.filter((post) => post.id !== postId));
         postStore.setPostList(postList.filter((post) => post.id !== postId));
         getPostList();
     };
@@ -68,4 +66,4 @@ const PostList = ({ postStore }) => {
     );
 };
 
-export default inject('postStore')(observer(PostList));
+export default observer(PostList);

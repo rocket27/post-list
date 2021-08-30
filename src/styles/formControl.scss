@@ -51,8 +51,9 @@
     }
 
     &--error {
-      textarea,
-      input {
+      input,
+      select,
+      textarea {
         border-color: $warning-color;
       }
     }

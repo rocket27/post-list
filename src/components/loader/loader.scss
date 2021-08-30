@@ -1,0 +1,53 @@
+@import '../../styles/base/variables';
+
+@keyframes track-bar {
+  from {
+    left: -5%;
+    width: 5%;
+  }
+
+  to {
+    left: 100%;
+    width: 35%;
+  }
+}
+
+.loader {
+  z-index: 9999;
+  width: 100%;
+  height: 2px;
+  overflow: hidden;
+  background-color: rgba($bluish, 0.25);
+
+  &--relative-position {
+    position: relative;
+  }
+
+  &--absolute-position {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+
+  &__bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5%;
+    height: 100%;
+    overflow: hidden;
+    animation: track-bar ease-out 2s infinite;
+    background-color: $bluish;
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}

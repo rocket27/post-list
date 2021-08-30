@@ -39,6 +39,12 @@ ul {
   list-style: none;
 }
 
+.action-button {
+  @extend %action-button;
+
+  margin-top: 30px;
+}
+
 .container {
   width: 100%;
   max-width: 760px;
@@ -47,6 +53,7 @@ ul {
 }
 
 .empty {
+  margin-top: 30px;
   font-family: $title-font;
   font-size: 18px;
   text-align: center;

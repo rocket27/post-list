@@ -17,3 +17,7 @@ $control-shadow: inset 0 1px 3px 0 rgba(27, 40, 52, 0.08);
 $control-border: solid 1px #d4d8db;
 $control-border-radius: 3px;
 $default-transition: all 0.25s ease-out;
+
+// Gradients
+$action-from: linear-gradient(to bottom, $bluish, #2367c8 95%);
+$action-to: linear-gradient(to top, $bluish, #276ccf, #2367c8);

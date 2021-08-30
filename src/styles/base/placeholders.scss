@@ -23,3 +23,15 @@
     color: white;
   }
 }
+
+%action-button {
+  @extend %primary-button;
+
+  border: none;
+  background-image: $action-from;
+  color: white;
+
+  &:hover {
+    background-image: $action-to;
+  }
+}

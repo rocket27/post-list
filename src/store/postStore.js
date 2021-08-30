@@ -1,9 +1,10 @@
 import { makeAutoObservable } from 'mobx';
 import { v4 as uuidv4 } from 'uuid';
+import { CITIES } from '../enums/cities';
 
 class PostStore {
     postList = [{
-        city: 'Москва',
+        city: CITIES.moscow,
         description: 'Состояние отличное, машина как новая. Продаю в связи с покупкой нового авто. Фотографии еще не успел сделать, но обязательно добавлю позже!',
         id: uuidv4(),
         phoneNumber: '+79241234567',

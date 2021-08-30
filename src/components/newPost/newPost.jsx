@@ -1,13 +1,12 @@
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-// import { POST_LIST_LOCAL_STORAGE_VALUE } from '../../config/constants';
 import { POST_CREATE_FORM_CONFIG } from '../../config/postCreateFormConfig';
 import { CITIES } from '../../enums/cities';
-// import { getLocalStorageItem, getValidFileObjectToJSONStringify, setLocalStorageItem } from '../../helpers/utils';
+import postStore from '../../store/postStore';
 import FormControlFileInput from '../formControlFileInput/formControlFileInput';
 import FormControlInput from '../formControlInput/formControlInput';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +15,7 @@ import FormControlSelect from '../formControlSelect/formControlSelect';
 import FormControlTextarea from '../formControlTextarea/formControlTextarea';
 import './newPost.scss';
 
-const NewPost = ({ postStore }) => {
+const NewPost = () => {
     const history = useHistory();
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -50,7 +49,7 @@ const NewPost = ({ postStore }) => {
     /**
      * Конфигурация для работы с формой
      */
-    const { control, register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit, watch, trigger, formState: { errors } } = useForm({
         mode: 'onBlur',
         resolver: yupResolver(formSchema),
     });
@@ -58,7 +57,6 @@ const NewPost = ({ postStore }) => {
     /**
      * Обрабатываем изменение выбранного изображения
      * @param file
-     * @param base64string
      */
     const onImageSelect = (file) => {
         if (!file) setSelectedImage(null);
@@ -75,19 +73,13 @@ const NewPost = ({ postStore }) => {
             id: uuidv4(),
             image: selectedImage,
             ...data,
+            city: Object.values(CITIES)
+                .find((city) => city.id === data.city),
         };
-        /*if (selectedImage && selectedImage.name) {
-            newPost.image = getValidFileObjectToJSONStringify(selectedImage);
-        }*/
-        // return;
         const postList = postStore?.getPostList();
-        /*if (!postList) {
-            setLocalStorageItem(POST_LIST_LOCAL_STORAGE_VALUE, [newPost]);
-        }*/
         if (!postList) postStore?.setPostList([newPost]);
         else {
-            postList.push(newPost);
-            // setLocalStorageItem(POST_LIST_LOCAL_STORAGE_VALUE, postList);
+            postList.unshift(newPost);
             postStore?.setPostList(postList);
         }
         history.push('/');
@@ -105,8 +97,8 @@ const NewPost = ({ postStore }) => {
                         id={POST_CREATE_FORM_CONFIG.title.name}
                         label={POST_CREATE_FORM_CONFIG.title.label}
                         maxLength={POST_CREATE_FORM_CONFIG.title.validation.maxlength.value}
-                        register={register}
                         required
+                        register={register}
                     />
                     <FormControlTextarea
                         currentValue={watch(POST_CREATE_FORM_CONFIG.description.name)}
@@ -115,8 +107,8 @@ const NewPost = ({ postStore }) => {
                         id={POST_CREATE_FORM_CONFIG.description.name}
                         label={POST_CREATE_FORM_CONFIG.description.label}
                         maxLength={POST_CREATE_FORM_CONFIG.description.validation.maxlength.value}
-                        register={register}
                         required
+                        register={register}
                     />
                     <FormControlPhone
                         currentValue={watch(POST_CREATE_FORM_CONFIG.phone.name)}
@@ -125,6 +117,7 @@ const NewPost = ({ postStore }) => {
                         id={POST_CREATE_FORM_CONFIG.phone.name}
                         label={POST_CREATE_FORM_CONFIG.phone.label}
                         placeholder={'+7 ___ ___ __ __'}
+                        trigger={trigger}
                         register={register}
                     />
                     <FormControlSelect
@@ -134,17 +127,21 @@ const NewPost = ({ postStore }) => {
                         id={POST_CREATE_FORM_CONFIG.city.name}
                         label={POST_CREATE_FORM_CONFIG.city.label}
                         options={Object.values(CITIES)}
-                        { ...register(POST_CREATE_FORM_CONFIG.city.name) }
                         required
+                        register={register}
                     />
                     <FormControlFileInput
                         onChangeImage={onImageSelect}
                     />
-                    <input type="submit" value={'send'}/>
+                    <input
+                        className={'action-button'}
+                        type={'submit'}
+                        value={'Подать'}
+                    />
                 </form>
             </div>
         </div>
     );
 };
 
-export default inject('postStore')(observer(NewPost));
+export default observer(NewPost);

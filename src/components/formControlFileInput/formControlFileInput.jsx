@@ -4,7 +4,8 @@ const FormControlFileInput = ({ onChangeImage }) => {
     const [image, setImage] = useState(null);
     const [imageBase64string, setImageBase64string] = useState(null);
     useEffect(() => getBase64imageString(image), [image]);
-    useEffect(() => onChangeImage(image), [image, imageBase64string]);
+    // useEffect(() => onChangeImage(image), [image, imageBase64string]);
+    useEffect(() => onChangeImage(image));
 
     /**
      * Сохраняем выбранное изображение в переменной состояния

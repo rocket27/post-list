@@ -4,11 +4,12 @@ import { ReactSVG } from 'react-svg';
 import errorIcon from '../../assets/images/svg/error.svg';
 import helpIcon from '../../assets/images/svg/help.svg';
 import successIcon from '../../assets/images/svg/success.svg';
+import { POST_CREATE_FORM_CONFIG } from '../../config/postCreateFormConfig';
 import { MARK_TYPES } from '../../enums/markTypes';
 import InfoMark from '../infoMark/infoMark';
 
 
-const FormControlSelect = React.forwardRef(({ currentValue, errors, id, label, name, options, register }, ref) => {
+const FormControlSelect = ({ currentValue, errors, id, label, name, options, register }) => {
     return (
         <section className={'form-control'}>
             {
@@ -23,16 +24,16 @@ const FormControlSelect = React.forwardRef(({ currentValue, errors, id, label, n
                     <select
                         id={id}
                         name={name}
-                        ref={ref}
-                        defaultValue
+                        defaultValue={''}
+                        { ...register(POST_CREATE_FORM_CONFIG.city.name) }
                     >
-                        <option disabled value>Выберите город</option>
+                        <option disabled value={''}>Выберите город</option>
                         {
                             options.map((option) => {
                                 return (
                                     <option
                                         key={option.id}
-                                        value={option.name}
+                                        value={option.id}
                                     >
                                         {option.name}
                                     </option>
@@ -59,15 +60,13 @@ const FormControlSelect = React.forwardRef(({ currentValue, errors, id, label, n
                         }
                         {
                             !currentValue && !errors &&
-                            <InfoMark
-                                type={MARK_TYPES.PRIMARY}
-                            />
+                            <InfoMark content={'Обязательное поле'} type={MARK_TYPES.PRIMARY}/>
                         }
                     </div>
                 </div>
             </div>
         </section>
     );
-});
+};
 
 export default FormControlSelect;

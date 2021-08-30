@@ -8,7 +8,7 @@ import helpIcon from '../../assets/images/svg/help.svg';
 import successIcon from '../../assets/images/svg/success.svg';
 import errorIcon from '../../assets/images/svg/error.svg';
 
-const FormControlPhone = ({ currentValue, errors, name, id, label, placeholder, register }) => {
+const FormControlPhone = ({ currentValue, errors, name, id, label, trigger, placeholder, register }) => {
     return (
         <section className={'form-control'}>
             {
@@ -26,7 +26,10 @@ const FormControlPhone = ({ currentValue, errors, name, id, label, placeholder, 
                         placeholder={placeholder}
                         type={'tel'}
                         { ...register(name) }
-                        onChange={(event) => event.target.value = parsePhoneNumber(event.target.value)}
+                        onChange={async (event) => {
+                            event.target.value = parsePhoneNumber(event.target.value);
+                            await trigger(name);
+                        }}
                     />
                 </div>
                 <div className={'form-control__info'}>
